@@ -1,0 +1,90 @@
+{% extends 'otp/institution/dashbase.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Profile Settings /</span> Profile</h4>
+
+    <div class="row">
+      <div class="col-md-12">
+        
+        <div class="card mb-0">
+          <h5 class="card-header">Profile Picture</h5>
+          <!-- Account -->
+          <div class="card-body">
+            {% if user.user_profile %}
+                <img src="/media/{{user.user_profile}}" style="height:150px;width:150px;border-radius:50%">
+                {% else %}
+                <img src="{% static 'images/user.png' %}" style="height:150px;width:150px;border-radius:50%">
+                {% endif %}
+            
+              <div class="button-wrapper">
+                <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
+              </div>
+            </div>
+          </div>
+          <hr class="my-0" />
+          <div class="card"> <!--form-->
+            <form action="" method="post" class="mx-auto" enctype="multipart/form-data">
+                {% csrf_token %}
+                <center>
+                  {% if messages %}
+                    {% for message in messages %}  
+                  
+                    <div class="alert alert-{{message.tags}}" role="alert" style="margin-top: 30px;width:700px;height:50px;">
+                      <h5>{{message}}</h5>
+                    </div>
+                      
+                    {% endfor %}
+                    {% endif %}  
+                  
+                    {% if message_error %}
+                      <div class="alert alert-danger" role="alert" style="margin-top: 30px;width:100px;height:30px;">
+                         <h5>{{ message_error }}</h5>
+                      </div>
+                    {% endif %}
+                  </center>   
+                <br><br><br>
+                <h2 class="text-center">Details</h2>
+                <div class="mb-3 mt-5">
+                    <label for="" style="font-size:22px;">Name</label>
+                    <input type="text" style="font-size:22px;" class="form-control" placeholder="Enter Name" name="name" value="{{ user.name }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="" style="font-size:22px;">Email</label>
+                    <input style="font-size:22px;" type="email" class="form-control" placeholder="" name="email" value="{{ user.email }}" required disabled>
+                </div>
+                <div class="mb-3">
+                    <label for="" style="font-size:22px;">Phone Number</label>
+                    <input style="font-size:22px;" type="number" class="form-control" placeholder="" name="phone_number" value="{{ user.phone_number }}" required disabled>
+                </div>
+                <div class="mb-3">
+                  <label style="font-size:22px;" for="">Gender</label><br>
+                  <input style="font-size:22px;" type="radio" id="male" name="gender" value="male" {% if user.gender == 'male' %} checked {% endif %}>
+                  <label style="font-size:22px;" for="male"> Male</label>
+                  <input style="font-size:22px;" type="radio" id="female" name="gender" value="female" {% if user.gender == 'female' %} checked {% endif %}>
+                  <label style="font-size:22px;" for="female"> Female</label>
+                  <input  style="font-size:22px;" type="radio" id="other" name="gender" value="other" {% if user.gender == 'other' %} checked {% endif %}>
+                  <label style="font-size:22px;" for="other"> Other</label>
+              </div>
+              <div class="mb-3">
+                <label for="" style="font-size:22px;">Father Name</label>
+                <input style="font-size:22px;" type="text" class="form-control" placeholder="Enter Father name" name="father_name" value="{{ user.father_name }}" required>
+              </div>
+                <div class="mb-3">
+                    <label for="" style="font-size:22px;">Profile</label>
+                    <input  style="font-size:22px;" type="file" class="form-control"  name="user_profile" placeholder="" value="{{ user.user_profile}}" required>
+                </div>
+                <center><button type="submit" class="btn mt-5" style="font-size:22px;background:rgba(75, 14, 154, 1) 35%;color:white;">Register</button></center>
+                <br><br>
+              </form>
+              
+          </div>
+          <!-- /Account -->
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}

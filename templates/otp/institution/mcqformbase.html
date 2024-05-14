@@ -1,0 +1,35 @@
+{% extends 'otp/institution/dashbase.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="row">
+<br><br>
+</div>
+<center>
+
+    <h5 class="pb-1 mb-4">Mcq Management</h5>
+              <div class="row mb-5">
+                <div class="col-lg-2"></div>
+                <div class="col-md-6 col-lg-4">
+                  <div class="card mb-3">
+                    <div class="card-body">
+                      <h5 class="card-title">Add Exam Question</h5>
+                      
+                      <a href="{% url 'create_course' %}" class="btn btn-primary">Add</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <div class="card text-center mb-3">
+                    <div class="card-body">
+                      <h5 class="card-title">View Exam Question</h5>
+                      
+                      <a href="{% url 'view_question' %}" class="btn btn-primary">View</a>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+    
+
+</center>
+{% endblock content %}

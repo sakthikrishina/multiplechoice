@@ -1,0 +1,44 @@
+{% extends 'otp/institution/dashbase.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .btn-primary{
+            width: 20%;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(75,14,154,1) 35%, rgba(0,212,255,1) 100%);
+            
+        }
+        .form-control{
+          color:black;
+          font-size: 24px;
+       }
+       label{
+         color:black;
+         font-size: 24px;
+      }
+    </style>
+</head>
+<br>
+<h2 style="text-align:center;">Add Category</h2>
+<form method="POST" autocomplete="off" style="margin:100px;margin-top: 0px;">
+    {%csrf_token%}
+    <div class="form-group">
+      <label for="course_name">Category Name</label>
+      {% render_field form.category|attr:'required:true' class="form-control" placeholder="Category Name" %}
+      <br>
+      <label for="question_number">Total Question</label>
+      {% render_field form.total_question|attr:'required:true' class="form-control" placeholder="Total Question" %}
+      <br>
+      <label for="duration">Date and Time</label>
+      {% render_field form.date|attr:'required:true' class="form-control" placeholder="yyyy-mm-dd" %} 
+       <br>
+      <label for="status">Status</label>
+      {% render_field form.status|attr:'required:true' class="form-control" %} <br><br>
+
+    <center><button type="submit" class="btn" style="font-size:22px;background:rgba(75, 14, 154, 1) 35%;color:white;border-radius: 10px;">Submit</button></center>
+  </form>
+<br><br><br>
+{% endblock content %}

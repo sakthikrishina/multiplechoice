@@ -1,0 +1,52 @@
+{% extends "otp/base.html" %}
+
+
+{% block content %}
+
+
+<style>
+    form{
+        width: 500px;
+        height: auto;
+        padding: 70px 70px 70px 70px;
+        box-shadow: rgba(2, 225, 255, 0.945) 0px 5px 15px;
+        margin: 50px auto;
+        border-radius: 10px;
+        margin-top: 110px;
+    }
+    form:hover{
+
+        box-shadow: rgba(255, 4, 180, 0.945) 0px 5px 15px;
+               
+    }
+    form p{
+        text-align: center;
+        margin-top: 29px;
+        color:white;
+    }
+    input:hover{
+
+        box-shadow: rgba(10, 227, 243, 0.945) 0px 5px 15px;
+               
+    }
+    form h3{
+        text-align: center
+    }
+    button:hover{
+        box-shadow: rgba(241, 200, 235, 0.945) 0px 5px 15px;
+    }
+</style>
+    <form action="" method='POST'>
+        {% csrf_token %}
+        <h3><strong style="color:rgb(247, 183, 10);">Login</strong></h3>
+        <div class="mb-3">
+            <label class="form-label" style="margin-top: 20px;color:rgb(255, 255, 255);font-size:17px;">Email Address</label>
+            <input type="email" class="form-control" name="otp_email" placeholder="Enter email-address" style="margin-top: 10px;">
+          </div>
+
+          <button class="btn btn-primary" style="width:100%">Send OTP</button>
+          
+
+    </form>
+{% endblock content %}
+    

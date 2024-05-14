@@ -1,0 +1,148 @@
+{% extends 'otp/student/html/dashbase.html' %}
+{% block content %}
+{% load static %}
+
+<style>
+    .btn-primary {
+        width: 20%;
+        border: none;
+        border-radius: 50px;
+        background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(75, 14, 154, 1) 35%, rgba(0, 212, 255, 1) 100%);
+    }
+
+    form {
+        margin-left: 30px;
+    }
+</style>
+<center>
+{% if messages %}
+                    {% for message in messages %}  
+                  
+                    <div class="alert alert-{{message.tags}}" role="alert" style="margin-top: 30px;width:700px;height:50px;">
+                      <h5>{{message}}</h5>
+                    </div>
+                      
+                    {% endfor %}
+                    {% endif %}  
+                  
+                    {% if message_error %}
+                      <div class="alert alert-danger" role="alert" style="margin-top: 30px;width:100px;height:30px;">
+                         <h5>{{ message_error }}</h5>
+                      </div>
+                    {% endif %}
+
+                </center>
+<br><br><br><br>
+<h2 class="text-dark" style="text-align: center;">Exam: {{ course.course }}</h2>
+<p id="timer" style="text-align: left;font-size:24px;margin-left:20px;color:black;"></p>
+<br><br>
+
+<form  id="examForm" action="{% url 'review-view' course.id %}" method="POST">
+    {% csrf_token %}
+    {% for q in questions %}
+    <h3 style="color:black;">{{ forloop.counter }}. {{ q.question }} <b style="color:red;">*</b></h3>
+    <h4 style="text-align: right;color:black;">[{{ q.marks }} Marks]</h4>
+    <input type="hidden" name="question_id" value="{{ q.id }}" >
+    <input type="hidden" name="answer" value="{{ q.answer }}" >
+      <input type="hidden" id="csrf_token" name="token" value="{{ user.name }}_{{ today_date }}" >
+    <div class="form-check mx-4">
+        <input class="form-check-input" style="font-size:19px;color:black;" type="radio" name="selected_option_{{ q.id }}" id="{{ q.option1 }}" value="{{ q.option1 }}" required>
+        <label class="form-check-label" for="option1" style="font-size:19px;color:black;">
+            {{ q.option1 }}
+        </label>
+    </div>
+
+    <div class="form-check mx-4">
+        <input class="form-check-input" type="radio" style="font-size:19px;color:black;" name="selected_option_{{ q.id }}" id="{{ q.option2 }}" value="{{ q.option2 }}" required>
+        <label class="form-check-label" for="option2" style="font-size:19px;color:black;">
+            {{ q.option2 }}
+        </label>
+    </div>
+
+    <div class="form-check mx-4">
+        <input class="form-check-input" type="radio" style="font-size:19px;color:black;" name="selected_option_{{ q.id }}" id="{{ q.option3 }}" value="{{ q.option3 }}" required>
+        <label class="form-check-label" for="option3" style="font-size:19px;color:black;">
+            {{ q.option3 }}
+        </label>
+    </div>
+
+    <div class="form-check mx-4">
+        <input class="form-check-input" type="radio" style="font-size:19px;color:black;" name="selected_option_{{ q.id }}" id="{{ q.option4 }}" value="{{ q.option4 }}" required>
+        <label class="form-check-label" for="option4" style="font-size:19px;color:black;">
+            {{ q.option4 }}
+        </label><br><br>
+    </div>
+
+    {% endfor %} <br><br>
+    <input type="hidden" id="time_taken" name="time_taken">
+    <a id="submitBtn" href="{% url 'ansreview' course.id  %}" type="submit"  class="btn btn-primary" style="border-radius:10px;font-size:22px;background:rgba(75, 14, 154, 1) 35%;color:white;">Submit</a></center> <br><br>
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    var durationMinutes = {{ course.duration }};
+    var totalTime = durationMinutes * 60 * 1000;
+    var timeLeft = totalTime;
+    var timerElement = document.getElementById("timer");
+    var timerInterval = setInterval(updateTimer, 1000);
+
+    function updateTimer() {
+        var minutes = Math.floor(timeLeft / 60000);
+        var seconds = Math.floor((timeLeft % 60000) / 1000);
+        timerElement.textContent = "Time Left: " + minutes + " minutes " + seconds + " seconds";
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            alert("Time's up!");
+            var minutesTaken = Math.floor((totalTime - timeLeft) / 60000);
+            var secondsTaken = Math.floor(((totalTime - timeLeft) % 60000) / 1000);
+            var timeTaken = formatTime(minutesTaken) + ":" + formatTime(secondsTaken); // Format time with colon
+            document.getElementById("time_taken").value = timeTaken; // Store time taken in minutes and seconds
+            document.getElementById("examForm").submit(); // Submit the form when time is up
+        }
+        timeLeft -= 1000; // Decrease time left by 1 second
+    }
+
+    // Function to format time (add leading zero if needed)
+    function formatTime(time) {
+        return (time < 10 ? "0" : "") + time;
+    }
+
+    function saveAns() {
+        var allQuestionsAnswered = true; // Assume all questions are answered initially
+        var ele = document.getElementsByTagName('input');
+        for (i = 0; i < ele.length; i++) {
+            if (ele[i].type == "radio") {
+                if (ele[i].checked) {
+                    setCookie(ele[i].name, ele[i].value, 3);
+                } else {
+                    setCookie(ele[i].name, "None", 3);
+                }
+            }
+        }
+    }
+
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    // Attach event listener to form submission
+    document.getElementById("submitBtn").addEventListener("click", function(event) {
+        event.preventDefault(); // Prevent default anchor behavior
+        
+        saveAns(); // Save answers before submitting the form
+        
+        // Set the value of time_taken field
+        var minutesTaken = Math.floor((totalTime - timeLeft) / 60000);
+        var secondsTaken = Math.floor(((totalTime - timeLeft) % 60000) / 1000);
+        var timeTaken = formatTime(minutesTaken) + ":" + formatTime(secondsTaken); // Format time with colon
+        document.getElementById("time_taken").value = timeTaken; // Store time taken in minutes and seconds
+        
+        // Submit the form
+        document.getElementById("examForm").submit();
+    });
+</script>
+
+{% endblock content %}

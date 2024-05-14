@@ -1,0 +1,78 @@
+{% extends 'otp/institution/dashbase.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="row">
+<br><br>
+</div>
+{% if messages %}
+                    {% for message in messages %}  
+                  
+                    <div class="alert alert-{{message.tags}}" role="alert" style="margin-top: 30px;width:700px;height:50px;">
+                      <h5>{{message}}</h5>
+                    </div>
+                      
+                    {% endfor %}
+                    {% endif %}  
+                  
+                    {% if message_error %}
+                      <div class="alert alert-danger" role="alert" style="margin-top: 30px;width:100px;height:30px;">
+                         <h5>{{ message_error }}</h5>
+                      </div>
+                    {% endif %}
+<center>
+    <h2 class="pb-1 mb-4" style='color:rgba(75, 14, 154, 1) 35%;f'>Admin Panel</h2>
+              <div class="row mb-5">
+                
+                <div class="col-md-6 col-lg-3 ms-4 mx-auto">
+                  <div class="card mb-3">
+                    <div class="card-body">
+                      <h3 class="card-title" style="color:rgb(0, 0, 0);">Student Management</h3>
+                      <p style="color:rgb(0, 0, 0);"><span><b>{{ total_student }}</span></b></p>
+                     
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-3 ms-4 mx-auto">
+                  <div class="card text-center mb-3">
+                    <div class="card-body">
+                      <h3 class="card-title" style="color:rgb(0, 0, 0);">Completed MCQ Management</h3>
+                      <p style="color:rgb(0, 0, 0);"><span><b>{{ complete_mcq }}</span></b></p>
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-3 ms-4 mx-auto">
+                  <div class="card text-center mb-3">
+                    <div class="card-body">
+                      <h3 class="card-title" style="color:rgb(0, 0, 0);">Pending MCQ Management</h3>
+                      <p style="color:rgb(0, 0, 0);"><span><b>{{ pending_mcq }}</span></b></p>
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-3"></div>
+                <div class="col-md-6 col-lg-3 ms-4 mx-auto">
+                  <div class="card text-center mb-3">
+                    <div class="card-body">
+                      <h3 class="card-title" style="color:rgb(0, 0, 0);">Executed MCQ Management</h3>
+                      <p style="color:rgb(0, 0, 0);"><span><b>{{ executed_mcq }}</span></b></p>
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-3 ms-4 mx-auto">
+                  <div class="card text-center mb-3">
+                    <div class="card-body">
+                      <h3 class="card-title" style="color:rgb(0, 0, 0);">Question Bank Category</h3>
+                      <p style="color:rgb(0, 0, 0);"><span><b>{{ question_cate }}</span></b></p>
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-3 ms-4 mx-auto"></div>
+                
+              </div>
+    
+
+</center>
+{% endblock content %}

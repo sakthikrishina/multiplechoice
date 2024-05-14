@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Save Course</title>
+</head>
+<body>
+    <h1>{{ course.course_name }}</h1>
+    <h2>Questions:</h2>
+    <ul>
+    {% for question in questions %}
+        <li>{{ question.question }}</li>
+    {% endfor %}
+    </ul>
+
+    <!-- Add a form with a submit button -->
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="submit">Save Course and Redirect</button>
+    </form>
+</body>
+</html>

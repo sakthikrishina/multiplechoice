@@ -1,0 +1,70 @@
+{% extends 'otp/student/html/dashbase.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<center>
+{% if messages %}
+  {% for message in messages %}  
+
+  <div class="alert alert-{{message.tags}}" role="alert" style="margin-top: 30px;width:700px;height:50px;">
+    <h5>{{message}}</h5>
+  </div>
+    
+  {% endfor %}
+  {% endif %}  
+
+  {% if message_error %}
+    <div class="alert alert-danger" role="alert" style="margin-top: 30px;width:100px;height:30px;">
+       <h5>{{ message_error }}</h5>
+    </div>
+  {% endif %}
+</center>
+<br>
+
+<style>
+  .btn{
+      width: 60%;
+      border: none;
+      border-radius: 10px;
+      
+  }
+</style> 
+<h2 class="card-header text-center" style="color:black;">Exam List</h2>
+<!-- Basic Bootstrap Table -->
+<div class="card" style="margin-left:20px;margin-right:20px;">
+    
+    
+    <div class="table-responsive text-nowrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="font-size:19px;">Exam Name</th>
+            <th style="font-size:19px;">Exam Date</th>
+            <th style="font-size:19px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+          {% for t in courses %}
+          <tr>
+    
+            <td style="font-size:19px;"> {{t.course}}</td>
+            <td style="font-size:19px;"> {{t.examdate}}</td>
+            <td style="font-size:19px;"><a class="btn " style="font-size:22px;background:rgba(75, 14, 154, 1) 35%;color:white;" href="{% url 'takeexam' t.id  %}"><span class="glyphicon glyphicon-check"></span>Take Exam</a></td>
+          </tr>
+          {% endfor %}
+    
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+<br><br>
+
+
+    
+  
+
+ 
+  <br><br>
+  <!--/ Basic Bootstrap Table -->
+  {% endblock content %}

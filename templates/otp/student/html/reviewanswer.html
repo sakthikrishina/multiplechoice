@@ -1,0 +1,31 @@
+{% extends 'otp/student/html/dashbase.html' %}
+{% block content %}
+{% load static %}
+<style>
+        .btn-primary {
+            width: 20%;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(75, 14, 154, 1) 35%, rgba(0, 212, 255, 1) 100%);
+        }
+        .box { /* Border color and width */
+            background-color: rgba(137, 43, 226, 0.452);
+            padding: 10px; /* Space between content and border */
+            margin-left: 20px; /* Left margin */
+            width: fit-content; /* Adjusts width to fit content */
+          }
+</style>
+<br><br>
+    <h1 style="font-size:32px;color:black;" class="text-center">Review Answers</h1>
+    <h2 style="font-size:26px;color:black;" class="text-center">Exam:{{course.course}}</h2><br> <br>
+    {% for answer in saved_answers %}
+        <input type="hidden" name="question_id" value="{{ answer.question_id }}">
+        <p style="font-size:24px;color:black;margin-left:20px;" >{{forloop.counter}} ){{ answer.question.question }}</p> <!-- Display question -->
+        <p class="box" style="font-size:24px;color:black;margin-left:20px;" >Your Answer: {{ answer.selected_option }}</p> <!-- Display selected option -->
+    
+    {% endfor %} <br>
+    <center>
+        <a href="{% url 'result' course.id %}" type="submit"  class="btn btn-primary" style="border-radius:10px;font-size:22px;background:rgba(75, 14, 154, 1) 35%;color:white;">Submit</a></center>
+    <br><br>
+    {% endblock content %}
+    

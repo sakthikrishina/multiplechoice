@@ -1,0 +1,146 @@
+{% extends 'otp/institution/dashbase.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<center>
+{% if messages %}
+  {% for message in messages %}  
+
+  <div class="alert alert-{{message.tags}}" role="alert" style="margin-top: 30px;width:700px;height:50px;">
+    <h5>{{message}}</h5>
+  </div>
+    
+  {% endfor %}
+  {% endif %}  
+
+  {% if message_error %}
+    <div class="alert alert-danger" role="alert" style="margin-top: 30px;width:100px;height:30px;">
+       <h5>{{ message_error }}</h5>
+    </div>
+  {% endif %}
+</center>
+<br>
+
+<style>
+  .btn-primary{
+      width: 20%;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(75,14,154,1) 35%, rgba(0,212,255,1) 100%);
+      
+  }
+</style> 
+
+<!-- Basic Bootstrap Table -->
+<div class="card" style="margin-left:20px;margin-right:20px;">
+    <h2 class="card-header">Exam List</h2><div class="card-body">
+      <a  href="{% url 'create_course' %}" class="btn" style="font-size:22px;background:rgba(75, 14, 154, 1) 35%;color:white;border-radius: 10px;">&nbsp;&nbsp;&nbsp;<i class='bx bx-add-to-queue'></i> &nbsp;Add Exam&nbsp;&nbsp;&nbsp;</a>
+    </div>
+    
+    <div class="table-responsive text-nowrap">
+      <table class="table mx-auto" id="example">
+        <thead>
+          <tr>
+            <th style="text-align:center;font-size:19px;color:black;">s.no</th>
+            <th style="text-align:center;font-size:19px;color:black;">Exam Name</th>
+            <th style="text-align:center;font-size:19px;color:black;">Total Question</th>
+            <th style="text-align:center;font-size:19px;color:black;">Total Marks</th>
+            <th style="text-align:center;font-size:19px;color:black;">Exam Date</th>
+            <th style="text-align:center;font-size:19px;color:black;">Duration</th>
+            <th style="text-align:center;font-size:19px;color:black;">Status</th>
+            <th style="text-align:center;font-size:19px;color:black;">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+          {% for context in all_courses %}
+          <tr>
+            <td style="text-align:center;font-size:19px;color:black;">{{ context.id }}</td>
+            <td style="text-align:center;font-size:19px;color:black;">{{ context.course }}</td>
+            <td style="text-align:center;font-size:19px;color:black;">{{ context.total_question }}</td>
+            <td style="text-align:center;font-size:19px;color:black;">{{ context.total_marks }}</td>
+            <td style="text-align:center;font-size:19px;color:black;">{{ context.examdate }}</td>
+            <td style="text-align:center;font-size:19px;color:black;">{{ context.duration }}</td>
+            <td style="text-align:center;font-size:19px;color:black;"><span class="badge bg-label me-1" style="background:rgba(75, 14, 154, 1) 35%;">{{ context.status }}</span></td>
+            <td style="text-align:center;font-size:19px;color:black;">
+              <div class="dropdown">
+                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                  <i class="bx bx-dots-vertical-rounded"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="{% url 'editexam' context.id %}"><i class="bx bx-edit-alt me-2"></i> Edit</a>
+                  <a class="dropdown-item" href="{% url 'deleteexam' context.id %}"><i class="bx bx-trash me-2"></i> Delete</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        {% endfor %}
+
+      </table>
+    </div>
+  </div>
+<br><br>
+
+  <div class="card" style="margin-left:20px;margin-right:20px;">
+    <h2 class="card-header">Questions</h2><div class="card-body" >
+      <a href="{% url 'create_question' %}" class="btn" style="font-size:22px;background:rgba(75, 14, 154, 1) 35%;color:white;border-radius: 10px;">&nbsp;&nbsp;&nbsp;<i class='bx bx-add-to-queue'></i> &nbsp;Add Question&nbsp;&nbsp;&nbsp;</a>
+    </div>
+    <div class="table-responsive text-nowrap">
+      <table class="table" id="best">
+        <thead>
+          <tr>
+            <th style="text-align:center;font-size:19px;color:black;">S.no</th>
+            <th style="text-align:center;font-size:19px;color:black;">Exam Name</th>
+            <th style="text-align:center;font-size:19px;color:black;">Question Number</th>
+            <th style="text-align:center;font-size:19px;color:black;">Marks</th>
+            <th style="text-align:center;font-size:19px;color:black;">Duration</th>
+            <th style="text-align:center;font-size:19px;color:black;">Questions</th>
+            <th style="text-align:center;font-size:19px;color:black;">Option 1</th>
+            <th style="text-align:center;font-size:19px;color:black;">Option 2</th>
+            <th style="text-align:center;font-size:19px;color:black;">Option 3</th>
+            <th style="text-align:center;font-size:19px;color:black;">Option 4</th>
+            <th style="text-align:center;font-size:19px;color:black;">Answers</th>
+            <th style="text-align:center;font-size:19px;color:black;">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+          {% for ques in all_question %}
+          <tr>
+            <td style="text-align:center;font-size:19px;color:black;">{{ ques.id }}</td>
+            <td style="text-align:center;font-size:19px;color:black;">{{ ques.course }}</td>
+            <td style="text-align:center;font-size:19px;color:black;">
+              {{ ques.current_question }}
+            </td>
+            <td style="text-align:center;font-size:19px;color:black;">{{ ques.marks }}</td>
+            <td style="text-align:center;font-size:19px;color:black;">{{ ques.duration }}</td>
+            <td style="font-size:19px;color:black;">{{ ques.question }}</td>
+            <td style="text-align:center;font-size:19px;color:black;">{{ ques.option1 }}</td>
+            <td style="text-align:center;font-size:19px;color:black;">{{ ques.option2 }}</td>
+            <td style="text-align:center;font-size:19px;color:black;">{{ ques.option3 }}</td>
+            <td style="text-align:center;font-size:19px;color:black;">{{ ques.option4 }}</td>
+            <td style="text-align:center;font-size:19px;color:black;">{{ ques.answer }}</td>
+            <td style="text-align:center;font-size:19px;color:black;">
+              <div class="dropdown">
+                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                  <i class="bx bx-dots-vertical-rounded"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="{% url 'editquestion' ques.id %}"
+                    ><i class="bx bx-edit-alt me-1"></i> Edit</a
+                  >
+                  <a class="dropdown-item" href="{% url 'deletequestion' ques.id %}"
+                    ><i class="bx bx-trash me-1"></i> Delete</a
+                  >
+                </div>
+              </div>
+            </td>
+          </tr>
+        {% endfor %} 
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <br><br>
+  <!--/ Basic Bootstrap Table -->
+  {% endblock content %}

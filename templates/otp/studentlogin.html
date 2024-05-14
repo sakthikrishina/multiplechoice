@@ -1,0 +1,77 @@
+{% extends "otp/base.html" %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+
+<style>
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  
+}
+form{
+    border-radius: 20px;
+    margin-top: 100px !important;
+    width: 24% !important;
+    background-color: white !important;
+    padding: 50px;
+}
+
+.btn-primary{
+    width: 100%;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(75,14,154,1) 35%, rgba(0,212,255,1) 100%);
+    
+}
+
+.form-control{
+    color: rgba(0,0,0,.87);
+    border-bottom-color: rgba(0,0,0,.42);
+    box-shadow: none !important;
+    border: none;
+    border-bottom: 1px solid;
+    border-radius: 4px 4px 0 0;
+    }
+ h4{
+    font-size: 2rem !important;
+    font-weight: 700;
+ }  
+ .form-label{
+    font-weight: 800 !important;
+    
+ }
+ label{
+    color:rgb(0, 0, 0);
+    font-weight: bold;
+    font-size: 19px;
+ }
+ input{
+    color:rgb(0, 0, 0);
+    font-weight: bold;
+    font-size: 28px;
+ }
+@media only screen and (max-width: 600px) {
+    form {
+        width: 100% !important;
+    }
+  }
+</style>
+<div class="container-fluid">
+    <form action="" method="post" class="mx-auto" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h4 class="text-center">MPIN</h4>
+        <div class="mb-3 mt-5">
+            <label for="">MPIN</label>
+            <input type="number" class="form-control" placeholder="Enter MPIN" name="mpin" required>
+        </div>
+        
+        <center><button type="submit" class="btn mt-5"  style="font-size:22px;background:rgba(75, 14, 154, 1) 35%;color:white;border-radius: 10px;">Submit</button></center>
+        <br><br>Are you forgot MPIN?<a href="{% url 'forgotmpin' %}" >Forgot MPIN</a>
+    </form>
+</div>
+<!-- Modal -->
+
+{% endblock %}

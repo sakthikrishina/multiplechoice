@@ -1,0 +1,53 @@
+{% extends 'otp/institution/dashbase.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">MPIN Settings /</span> Change MPIN</h4>
+
+    <div class="row">
+      <div class="col-md-12">
+          <hr class="my-0" />
+          <div class="card"> <!--form-->
+            <form action="" method="post" class="mx-auto" enctype="multipart/form-data">
+                {% csrf_token %}
+                <center>
+                  {% if messages %}
+                    {% for message in messages %}  
+                  
+                    <div class="alert alert-{{message.tags}}" role="alert" style="margin-top: 30px;width:700px;height:50px;">
+                      <h5>{{message}}</h5>
+                    </div>
+                      
+                    {% endfor %}
+                    {% endif %}  
+                  
+                    {% if message_error %}
+                      <div class="alert alert-danger" role="alert" style="margin-top: 30px;width:100px;height:30px;">
+                         <h5>{{ message_error }}</h5>
+                      </div>
+                    {% endif %}
+                  </center>   
+                <br><br><br>
+                <h2 class="text-center">MPIN</h2>
+                <div class="mb-3 mt-5">
+                    <label for="" style="font-size:22px;">MPIN</label>
+                    <input style="font-size:22px;" type="number" class="form-control" placeholder="Enter MPIN" name="mpin" value="{{ user.mpin }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="" style="font-size:22px;">Confirm MPIN</label>
+                    <input style="font-size:22px;" type="number" class="form-control" placeholder="Enter confirm MPIN" name="cmpin" value="{{ user.mpin }}" required>
+                </div>
+                <center><button type="submit" class="btn  mt-5" style="font-size:22px;background:rgba(75, 14, 154, 1) 35%;color:white;">Update</button></center>
+                <br><br>
+              </form>
+              
+          </div>
+          <!-- /Account -->
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}

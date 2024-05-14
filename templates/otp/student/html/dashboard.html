@@ -1,0 +1,107 @@
+{% extends 'otp/student/html/dashbase.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<div class="row">
+<br><br>
+</div>
+{% if messages %}
+                    {% for message in messages %}  
+                  
+                    <div class="alert alert-{{message.tags}}" role="alert" style="margin-top: 30px;width:700px;height:50px;">
+                      <h5>{{message}}</h5>
+                    </div>
+                      
+                    {% endfor %}
+                    {% endif %}  
+                  
+                    {% if message_error %}
+                      <div class="alert alert-danger" role="alert" style="margin-top: 30px;width:100px;height:30px;">
+                         <h5>{{ message_error }}</h5>
+                      </div>
+                    {% endif %}
+<center>
+    <h2 class="pb-1 mb-4" style='color:rgba(75, 14, 154, 1) 35%;'>Dashboard</h2>
+    <br><br> <br>
+              <div class="row mb-5">
+                
+                <div class="col-md-6 col-lg-4 ms-6 mx-auto" >
+                  <div class="card text-center mb-3 " style="color:rgb(248, 248, 248);background:rgb(253, 253, 253) 35%">
+                    <div class="card-body" >
+                      <h3 class="card-title"  style="color:rgb(0, 0, 0);">Available MCQ</h3>
+                      <p style="color:rgb(0, 0, 0);"><span><b>{{ complete_mcq }}</span></b></p>
+                     
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4 ms-7 mx-auto">
+                  <div class="card text-center mb-3 " style="color:rgb(248, 248, 248);background:rgb(253, 253, 253) 35%">
+                    <div class="card-body">
+                      <h3 class="card-title" style="color:rgb(0, 0, 0);">Upcoming MCQ</h3>
+                      <p style="color:rgb(0, 0, 0);"><span><b>{{ pending_mcq }}</span></b></p>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <br>
+
+            <div class="mx-auto">
+              <h2 style='color:rgba(75, 14, 154, 1) 35%;'>Leaderboard</h2><br><br><br>
+              <div class="card" style="margin-left:20px;margin-right:20px;">
+                <div class="card-body">
+                </div>
+                
+                <div class="table-responsive text-nowrap">
+                  <table class="table" id="example">
+                    <thead>
+                      <tr>
+                        <th style="text-align:center;font-size:19px;color:rgb(0, 0, 0);">Rank</th>
+                        <th style="text-align:center;font-size:19px;color:rgb(0, 0, 0);">Exam</th>
+                        <th style="text-align:center;font-size:19px;color:rgb(0, 0, 0);">Exam Date</th>
+                        <th style="text-align:center;font-size:19px;color:rgb(0, 0, 0);">Mark</th>
+                        <th style="text-align:center;font-size:19px;color:rgb(0, 0, 0);">Duration</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                      {% for r in results %}
+                      <tr>
+                        <td style="text-align:center;font-size:19px;color:rgb(0, 0, 0);"> {{r.rank}}</td>
+                        <td style="text-align:center;font-size:19px;color:rgb(0, 0, 0);"> {{r.exam.course}}</td>
+                        <td style="text-align:center;font-size:19px;color:rgb(0, 0, 0);"> {{r.date}}</td>
+                        <td style="text-align:center;font-size:19px;color:rgb(0, 0, 0);"> {{r.marks}}</td>
+                        <td style="text-align:center;font-size:19px;color:rgb(0, 0, 0);"> {{ r.duration }}</td>
+                      </tr>
+                      {% endfor %}
+                
+                    </tbody>
+            
+                  </table><br><br>
+            
+                </div>
+              </div>
+            </div><br><br><br>
+              <div class="row">
+                
+              {% if plot_paths %}
+          <center><h2  style='color:rgba(75, 14, 154, 1) 35%;'>Performance Metrics</h2></center><br><br><br>
+    
+         <ul>
+            {% for user, plot_path in plot_paths.items %}
+               <li>
+                   <img src="{{ plot_path }}" class="img-fluid"  alt="{{ user }} Performance Metrics">
+                   <p style="text-align:center;font-size:19px;color:rgb(0, 0, 0);">Click on the links below to download the performance Metrics:</p>
+                   <a href="{{ plot_path }}" download>{{ user }} Performance Metrics</a>
+               </li>
+            {% endfor %}
+          </ul>
+{% else %}
+    <p>No performance matrix available.</p>
+{% endif %}
+</div>
+
+
+</div>
+
+</center>
+{% endblock content %}
